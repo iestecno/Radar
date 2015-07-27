@@ -6,54 +6,57 @@
 /*The first part of the program is responsible for rotating the head with the sensor on it back and forth and for preparing the
 progress bar on the NXT's display.  This happens over and over again inside of a while loop
 */
+
 void moveRadar()
 {
 
 	nMotorEncoder[motorA]=0;
-	nMotorEncoderTarget[motorA] = 500;
+	nMotorEncoderTarget[motorA] = 1000;
 	motor[motorA]=15;
 
 /*Since the gears on the radar require the motor to turn 5 turns for every full turn of the
 head, we turn the motor by 1000 degrees, which results in a head rotation of 1000 / 5 = 200 degrees.
 */
 
-	while (nMotorRunState[motorA] !=runStateIdle)
-	{
-		//nxtDisplayTextLine(0, nMotorEncoder[motorA]);
-		nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
-		nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
-
-	}
+	while (nMotorEncoder[motorA] < 1000) //While the motors are running wait
+		{
+			int pos = nMotorEncoder[motorA];
+			nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
+			nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
+			nxtDisplayTextLine(2,"MotorPos: %d", pos);
+		}
 
 	nMotorEncoder[motorA]=0;
-	nMotorEncoderTarget [motorA]= -500;
+	nMotorEncoderTarget [motorA]= -1000;
 	motor[motorA]=-15;
 
-	while (nMotorRunState[motorA] !=runStateIdle)
-	{
-		nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
-		nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
+	while (nMotorEncoder[motorA] > -1000)	//While the motors are running wait
+		{
+			nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
+			nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
+		}
 
-	}
-/*	nMotorEncoder[motorA]=0;
-
-	while (nMotorEncoder[motorA]>-100) // Moving Counter Clockwise
-	{
-		nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
-		nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
-		motor[motorA]=-25;
-	}
-
-	wait10Msec(10); 							// Just in case*/
 }
+/*The second part of the program is responsible for reading the angle position of the sensor head
+and filling in the progress bar on the NXT display at that angle position.  The process
+repeats rapidly enough to get a reading for every different horizontal postiion on the NXT display.*/
+
+
+void progressBar()
+{
+	int pos = nMotorEncoder[motorA];
+	nxtDisplayTextLine(2,"MotorPos: %d", pos);
+}
+
+
 task main()
 {
 	bFloatDuringInactiveMotorPWM = false;
 	while (true)
 	{
 		moveRadar();
+		progressBar();
 	}
-
 
 }
 
