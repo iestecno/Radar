@@ -18,24 +18,32 @@ void moveRadar()
 head, we turn the motor by 1000 degrees, which results in a head rotation of 1000 / 5 = 200 degrees.
 */
 
-	while (nMotorEncoder[motorA] < 1000) //While the motors are running wait
+	while (nMotorEncoder[motorA] < 1000) //While the motor has not reached its target
 		{
 			int pos = nMotorEncoder[motorA];
 			nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
 			nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
 			nxtDisplayTextLine(2,"MotorPos: %d", pos);
+			nxtDrawRect (0, 3, pos/10, 0);  // display how the radar el moving
 		}
+
+
+	nxtEraseRect (0, 3, 100, 0); 				//Initialize the display
 
 	nMotorEncoder[motorA]=0;
 	nMotorEncoderTarget [motorA]= -1000;
 	motor[motorA]=-15;
 
-	while (nMotorEncoder[motorA] > -1000)	//While the motors are running wait
+	while (nMotorEncoder[motorA] > -1000)	//While the motor has not reached its target
 		{
+			int pos = nMotorEncoder[motorA];
 			nxtDrawLine(0, 0, 99, 0);  // display a line between the points (0,0) and (99,0)
 			nxtDrawLine(0, 4, 99, 4);  // display a line between the points (0,4) and (99,4)
+			nxtDisplayTextLine(2,"MotorPos: %d", pos);
+			nxtDrawRect (100, 3, (100 + pos/10), 0);  // display a line between the points (0,4) and (99,4)
 		}
 
+	nxtEraseRect (0, 3, 100, 0); 				//Initialize the display
 }
 /*The second part of the program is responsible for reading the angle position of the sensor head
 and filling in the progress bar on the NXT display at that angle position.  The process
