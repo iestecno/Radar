@@ -30,10 +30,8 @@ repeats rapidly enough to get a reading for every different horizontal postiion 
 			int pos = nMotorEncoder[motorA];								//Initializing Radar Position
 			nxtDrawLine(0, 0, 99, 0);  											//Display a line between the points (0,0) and (99,0)
 			nxtDrawLine(0, 4, 99, 4);  											//Display a line between the points (0,4) and (99,4)
-			//nxtDisplayTextLine(2,"MotorPos: %d", pos); 		//Checking the sensors
-			//nxtDisplayTextLine(4,"Sonar: %d", distance);	//Checking the sensors
-			nxtDrawRect (0, 3, pos/10, 0);  								//Display how the radar is moving
-			//nxtDrawCircle (pos/10, distance, 3);					//Objects detected
+						nxtDrawRect (0, 3, pos/10, 0);  					//Display how the radar is moving
+
 			if ((distance < 100) && (distance > 4))					//Representing Objects when in range
 			{
 				nxtDrawCircle (pos/10, (distance*64)/100, 3);
@@ -42,9 +40,9 @@ repeats rapidly enough to get a reading for every different horizontal postiion 
 
 		}
 
+/*Same code for the counterclockwise movement*/
+
 	nxtEraseRect (0, 0, 100, 64); 												//Initialize the display
-
-
 	nMotorEncoder[motorA]=0;															//Initialize the encoder
 	nMotorEncoderTarget [motorA]= -1000;									//Target for the encoder
 	motor[motorA]=-15;																		//Rotational Speed
@@ -53,11 +51,9 @@ repeats rapidly enough to get a reading for every different horizontal postiion 
 		{
 			int distance =SensorValue [radar];
 			int pos = nMotorEncoder[motorA];
-			nxtDrawLine(0, 0, 99, 0);  											// display a line between the points (0,0) and (99,0)
-			nxtDrawLine(0, 4, 99, 4);  											// display a line between the points (0,4) and (99,4)
-			//nxtDisplayTextLine(2,"MotorPos: %d", pos);
-			//nxtDisplayTextLine(4,"Sonar: %d", distance);
-			nxtDrawRect (100, 3, (100 + pos/10), 0);  // display a line between the points (0,4) and (99,4)
+			nxtDrawLine(0, 0, 99, 0);  												//Displaying a line between the points (0,0) and (99,0)
+			nxtDrawLine(0, 4, 99, 4);  												//Displaying a line between the points (0,4) and (99,4)
+			nxtDrawRect (100, 3, (100 + pos/10), 0);  				//Displaying a line between the points (0,4) and (99,4)
 
 			if ((distance < 100) && (distance > 4))
 			{
